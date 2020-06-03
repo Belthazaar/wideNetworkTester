@@ -1,6 +1,7 @@
 CHANGES
 =======
 
+* Added script for ixpmanager and added dpid support
 * Changed dockerfile to allow for standalone usage
 * Automate docker build and running topology tester
 * Added needed docker components

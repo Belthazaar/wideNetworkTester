@@ -1,100 +1,100 @@
 dps:
-  Edge1-TLS00:
+  s1:
     dp_id: 1
     hardware: Allied-Telesis
     interfaces:
-      25:
-        name: Edge2-Zayo, port1.0.25
+      23:
+        name: s2, port1.0.23
         opstatus_reconf: false
         native_vlan: 100
         acl_in: 1
-      28:
-        name: Edge3-Cogent, port1.0.28
+      24:
+        name: s3, port1.0.24
         opstatus_reconf: false
         native_vlan: 100
+        acl_in: 1
+      1:
+        native_vlan: 100
+        name: SCIX
         acl_in: 1
       2:
         native_vlan: 100
-        name: FullSave
+        name: Alpha Corp
         acl_in: 1
-      3:
-        native_vlan: 100
-        name: ADISTA
-        acl_in: 1
-      4:
-        native_vlan: 100
-        name: Viviers Fibre
-        acl_in: 1
-      5:
-        native_vlan: 100
-        name: Association tetaneutral.net
-        acl_in: 1
-      6:
-        native_vlan: 100
-        name: LyonIX
-        acl_in: 1
-      9:
-        native_vlan: 100
-        name: SHPV FRANCE
-        acl_in: 1
-      10:
-        native_vlan: 100
-        name: Aquilenet
-        acl_in: 1
-  Edge2-Zayo:
+  s2:
     dp_id: 2
     hardware: Allied-Telesis
     interfaces:
-      25:
-        name: Edge1-TLS00, port1.0.25
+      23:
+        name: s1, port1.0.23
         opstatus_reconf: false
         native_vlan: 100
         acl_in: 2
-      26:
-        name: Edge3-Cogent, port1.0.25
+      22:
+        name: s3, port1.0.22
         opstatus_reconf: false
         native_vlan: 100
         acl_in: 2
       1:
         native_vlan: 100
-        name: Aza telecom
+        name: Beta
         acl_in: 2
-      3:
+      2:
         native_vlan: 100
-        name: test
+        name: Charlie Internet Access
         acl_in: 2
-  Edge3-Cogent:
+  s3:
     dp_id: 3
     hardware: Allied-Telesis
     interfaces:
-      25:
-        name: Edge2-Zayo, port1.0.26
+      22:
+        name: s2, port1.0.22
         opstatus_reconf: false
         native_vlan: 100
         acl_in: 3
-      28:
-        name: Edge1-TLS00, port1.0.28
+      24:
+        name: s1, port1.0.24
         opstatus_reconf: false
         native_vlan: 100
         acl_in: 3
-      3:
+      1:
         native_vlan: 100
-        name: ALSATIS
+        name: Delta Internet Access
         acl_in: 3
-      5:
+      2:
         native_vlan: 100
-        name: INEONET
+        name: Echo Internet Access
         acl_in: 3
 vlans:
-  peering_vlan:
+  faucet:
     vid: 100
-    description: FAUCET
+    description: faucet
 acls:
   1:
   - rule:
       dl_type: '0x806'
       dl_dst: "ff:ff:ff:ff:ff:ff"
-      arp_tpa: "91.213.236.15"
+      arp_tpa: "10.0.0.1"
+      actions:
+        output:
+          port: 1
+  - rule:
+      dl_type: '0x86DD'
+      ip_proto: 58
+      icmpv6_type: 135
+      ipv6_nd_target: "fd00::1"
+      actions:
+        output:
+          port: 1
+  - rule:
+      dl_dst: "00:00:00:00:00:01"
+      actions:
+        output:
+          port: 1
+  - rule:
+      dl_type: '0x806'
+      dl_dst: "ff:ff:ff:ff:ff:ff"
+      arp_tpa: "10.0.0.2"
       actions:
         output:
           port: 2
@@ -102,268 +102,148 @@ acls:
       dl_type: '0x86DD'
       ip_proto: 58
       icmpv6_type: 135
-      ipv6_nd_target: "2001:7f8:68::3:9405:1"
+      ipv6_nd_target: "fd00::2"
       actions:
         output:
           port: 2
   - rule:
-      dl_dst: "08:b2:58:99:e4:0b"
+      dl_dst: "00:00:00:00:00:02"
       actions:
         output:
           port: 2
   - rule:
       dl_type: '0x806'
       dl_dst: "ff:ff:ff:ff:ff:ff"
-      arp_tpa: "91.213.236.22"
-      actions:
-        output:
-          port: 3
-  - rule:
-      dl_type: '0x86DD'
-      ip_proto: 58
-      icmpv6_type: 135
-      ipv6_nd_target: "2001:7f8:68::1:6347:1"
-      actions:
-        output:
-          port: 3
-  - rule:
-      dl_dst: "00:0b:fc:57:5c:1b"
-      actions:
-        output:
-          port: 3
-  - rule:
-      dl_type: '0x806'
-      dl_dst: "ff:ff:ff:ff:ff:ff"
-      arp_tpa: "91.213.236.24"
-      actions:
-        output:
-          port: 4
-  - rule:
-      dl_type: '0x86DD'
-      ip_proto: 58
-      icmpv6_type: 135
-      ipv6_nd_target: "2001:7f8:68::20:6059:1"
-      actions:
-        output:
-          port: 4
-  - rule:
-      dl_dst: "fc:ec:da:05:ef:72"
-      actions:
-        output:
-          port: 4
-  - rule:
-      dl_type: '0x806'
-      dl_dst: "ff:ff:ff:ff:ff:ff"
-      arp_tpa: "91.213.236.14"
-      actions:
-        output:
-          port: 5
-  - rule:
-      dl_type: '0x86DD'
-      ip_proto: 58
-      icmpv6_type: 135
-      ipv6_nd_target: "2001:7f8:68::19:7422:1"
-      actions:
-        output:
-          port: 5
-  - rule:
-      dl_dst: "90:e2:ba:20:b7:5c"
-      actions:
-        output:
-          port: 5
-  - rule:
-      dl_type: '0x806'
-      dl_dst: "ff:ff:ff:ff:ff:ff"
-      arp_tpa: "91.213.236.13"
-      actions:
-        output:
-          port: 6
-  - rule:
-      dl_type: '0x86DD'
-      ip_proto: 58
-      icmpv6_type: 135
-      ipv6_nd_target: "2001:7f8:68::4:3100:1"
-      actions:
-        output:
-          port: 6
-  - rule:
-      dl_dst: "70:e4:22:06:8c:7b"
-      actions:
-        output:
-          port: 6
-  - rule:
-      dl_type: '0x806'
-      dl_dst: "ff:ff:ff:ff:ff:ff"
-      arp_tpa: "91.213.236.25"
-      actions:
-        output:
-          port: 9
-  - rule:
-      dl_type: '0x86DD'
-      ip_proto: 58
-      icmpv6_type: 135
-      ipv6_nd_target: "2001:7f8:68::4:1652:1"
-      actions:
-        output:
-          port: 9
-  - rule:
-      dl_dst: "b0:fa:eb:15:72:c0"
-      actions:
-        output:
-          port: 9
-  - rule:
-      dl_type: '0x806'
-      dl_dst: "ff:ff:ff:ff:ff:ff"
-      arp_tpa: "91.213.236.26"
-      actions:
-        output:
-          port: 10
-  - rule:
-      dl_type: '0x86DD'
-      ip_proto: 58
-      icmpv6_type: 135
-      ipv6_nd_target: "2001:7f8:68::4:1111:1"
-      actions:
-        output:
-          port: 10
-  - rule:
-      dl_dst: "00:25:90:79:4d:5d"
-      actions:
-        output:
-          port: 10
-  - rule:
-      dl_type: '0x806'
-      dl_dst: "ff:ff:ff:ff:ff:ff"
-      arp_tpa: "91.213.236.20"
+      arp_tpa: "10.0.0.3"
       actions:
         output:
           failover:
             group_id: 1
             ports:
-            - 25
-            - 28
+            - 23
+            - 24
   - rule:
       dl_type: '0x86DD'
       ip_proto: 58
       icmpv6_type: 135
-      ipv6_nd_target: "2001:7f8:68::5:7468:1"
+      ipv6_nd_target: "fd00::3"
       actions:
         output:
           failover:
             group_id: 2
             ports:
-            - 25
-            - 28
+            - 23
+            - 24
   - rule:
-      dl_dst: "08:81:f4:89:8c:71"
+      dl_dst: "00:00:00:00:00:03"
       actions:
         output:
           failover:
             group_id: 3
             ports:
-            - 25
-            - 28
+            - 23
+            - 24
   - rule:
       dl_type: '0x806'
       dl_dst: "ff:ff:ff:ff:ff:ff"
-      arp_tpa: "91.213.236.3"
+      arp_tpa: "10.0.0.4"
       actions:
         output:
           failover:
             group_id: 4
             ports:
-            - 25
-            - 28
+            - 23
+            - 24
   - rule:
       dl_type: '0x86DD'
       ip_proto: 58
       icmpv6_type: 135
-      ipv6_nd_target: "2001:7f8:68::19:7492:2"
+      ipv6_nd_target: "fd00::4"
       actions:
         output:
           failover:
             group_id: 5
             ports:
-            - 25
-            - 28
+            - 23
+            - 24
   - rule:
-      dl_dst: "00:00:00:00:00:01"
+      dl_dst: "00:00:00:00:00:04"
       actions:
         output:
           failover:
             group_id: 6
             ports:
-            - 25
-            - 28
+            - 23
+            - 24
   - rule:
       dl_type: '0x806'
       dl_dst: "ff:ff:ff:ff:ff:ff"
-      arp_tpa: "91.213.236.12"
+      arp_tpa: "10.0.0.5"
       actions:
         output:
           failover:
             group_id: 7
             ports:
-            - 28
-            - 25
+            - 24
+            - 23
   - rule:
       dl_type: '0x86DD'
       ip_proto: 58
       icmpv6_type: 135
-      ipv6_nd_target: "2001:7f8:68::4:8072:1"
+      ipv6_nd_target: "fd00::5"
       actions:
         output:
           failover:
             group_id: 8
             ports:
-            - 28
-            - 25
+            - 24
+            - 23
   - rule:
-      dl_dst: "08:81:f4:8c:1f:e0"
+      dl_dst: "00:00:00:00:00:05"
       actions:
         output:
           failover:
             group_id: 9
             ports:
-            - 28
-            - 25
+            - 24
+            - 23
   - rule:
       dl_type: '0x806'
       dl_dst: "ff:ff:ff:ff:ff:ff"
-      arp_tpa: "91.213.236.23"
+      arp_tpa: "10.0.0.6"
       actions:
         output:
           failover:
             group_id: 10
             ports:
-            - 28
-            - 25
+            - 24
+            - 23
   - rule:
       dl_type: '0x86DD'
       ip_proto: 58
       icmpv6_type: 135
-      ipv6_nd_target: "2001:7f8:68::19:7492:1"
+      ipv6_nd_target: "fd00::6"
       actions:
         output:
           failover:
             group_id: 11
             ports:
-            - 28
-            - 25
+            - 24
+            - 23
   - rule:
-      dl_dst: "00:25:83:b0:34:1b"
+      dl_dst: "00:00:00:00:00:06"
       actions:
         output:
           failover:
             group_id: 12
             ports:
-            - 28
-            - 25
+            - 24
+            - 23
   2:
   - rule:
       dl_type: '0x806'
       dl_dst: "ff:ff:ff:ff:ff:ff"
-      arp_tpa: "91.213.236.20"
+      arp_tpa: "10.0.0.3"
       actions:
         output:
           port: 1
@@ -371,649 +251,329 @@ acls:
       dl_type: '0x86DD'
       ip_proto: 58
       icmpv6_type: 135
-      ipv6_nd_target: "2001:7f8:68::5:7468:1"
+      ipv6_nd_target: "fd00::3"
       actions:
         output:
           port: 1
   - rule:
-      dl_dst: "08:81:f4:89:8c:71"
+      dl_dst: "00:00:00:00:00:03"
       actions:
         output:
           port: 1
   - rule:
       dl_type: '0x806'
       dl_dst: "ff:ff:ff:ff:ff:ff"
-      arp_tpa: "91.213.236.3"
+      arp_tpa: "10.0.0.4"
       actions:
         output:
-          port: 3
+          port: 2
   - rule:
       dl_type: '0x86DD'
       ip_proto: 58
       icmpv6_type: 135
-      ipv6_nd_target: "2001:7f8:68::19:7492:2"
+      ipv6_nd_target: "fd00::4"
       actions:
         output:
-          port: 3
+          port: 2
   - rule:
-      dl_dst: "00:00:00:00:00:01"
+      dl_dst: "00:00:00:00:00:04"
       actions:
         output:
-          port: 3
+          port: 2
   - rule:
       dl_type: '0x806'
       dl_dst: "ff:ff:ff:ff:ff:ff"
-      arp_tpa: "91.213.236.15"
+      arp_tpa: "10.0.0.1"
       actions:
         output:
           failover:
             group_id: 1001
             ports:
-            - 25
-            - 26
+            - 23
+            - 22
   - rule:
       dl_type: '0x86DD'
       ip_proto: 58
       icmpv6_type: 135
-      ipv6_nd_target: "2001:7f8:68::3:9405:1"
+      ipv6_nd_target: "fd00::1"
       actions:
         output:
           failover:
             group_id: 1002
             ports:
-            - 25
-            - 26
-  - rule:
-      dl_dst: "08:b2:58:99:e4:0b"
-      actions:
-        output:
-          failover:
-            group_id: 1003
-            ports:
-            - 25
-            - 26
-  - rule:
-      dl_type: '0x806'
-      dl_dst: "ff:ff:ff:ff:ff:ff"
-      arp_tpa: "91.213.236.22"
-      actions:
-        output:
-          failover:
-            group_id: 1004
-            ports:
-            - 25
-            - 26
-  - rule:
-      dl_type: '0x86DD'
-      ip_proto: 58
-      icmpv6_type: 135
-      ipv6_nd_target: "2001:7f8:68::1:6347:1"
-      actions:
-        output:
-          failover:
-            group_id: 1005
-            ports:
-            - 25
-            - 26
-  - rule:
-      dl_dst: "00:0b:fc:57:5c:1b"
-      actions:
-        output:
-          failover:
-            group_id: 1006
-            ports:
-            - 25
-            - 26
-  - rule:
-      dl_type: '0x806'
-      dl_dst: "ff:ff:ff:ff:ff:ff"
-      arp_tpa: "91.213.236.24"
-      actions:
-        output:
-          failover:
-            group_id: 1007
-            ports:
-            - 25
-            - 26
-  - rule:
-      dl_type: '0x86DD'
-      ip_proto: 58
-      icmpv6_type: 135
-      ipv6_nd_target: "2001:7f8:68::20:6059:1"
-      actions:
-        output:
-          failover:
-            group_id: 1008
-            ports:
-            - 25
-            - 26
-  - rule:
-      dl_dst: "fc:ec:da:05:ef:72"
-      actions:
-        output:
-          failover:
-            group_id: 1009
-            ports:
-            - 25
-            - 26
-  - rule:
-      dl_type: '0x806'
-      dl_dst: "ff:ff:ff:ff:ff:ff"
-      arp_tpa: "91.213.236.14"
-      actions:
-        output:
-          failover:
-            group_id: 1010
-            ports:
-            - 25
-            - 26
-  - rule:
-      dl_type: '0x86DD'
-      ip_proto: 58
-      icmpv6_type: 135
-      ipv6_nd_target: "2001:7f8:68::19:7422:1"
-      actions:
-        output:
-          failover:
-            group_id: 1011
-            ports:
-            - 25
-            - 26
-  - rule:
-      dl_dst: "90:e2:ba:20:b7:5c"
-      actions:
-        output:
-          failover:
-            group_id: 1012
-            ports:
-            - 25
-            - 26
-  - rule:
-      dl_type: '0x806'
-      dl_dst: "ff:ff:ff:ff:ff:ff"
-      arp_tpa: "91.213.236.13"
-      actions:
-        output:
-          failover:
-            group_id: 1013
-            ports:
-            - 25
-            - 26
-  - rule:
-      dl_type: '0x86DD'
-      ip_proto: 58
-      icmpv6_type: 135
-      ipv6_nd_target: "2001:7f8:68::4:3100:1"
-      actions:
-        output:
-          failover:
-            group_id: 1014
-            ports:
-            - 25
-            - 26
-  - rule:
-      dl_dst: "70:e4:22:06:8c:7b"
-      actions:
-        output:
-          failover:
-            group_id: 1015
-            ports:
-            - 25
-            - 26
-  - rule:
-      dl_type: '0x806'
-      dl_dst: "ff:ff:ff:ff:ff:ff"
-      arp_tpa: "91.213.236.25"
-      actions:
-        output:
-          failover:
-            group_id: 1016
-            ports:
-            - 25
-            - 26
-  - rule:
-      dl_type: '0x86DD'
-      ip_proto: 58
-      icmpv6_type: 135
-      ipv6_nd_target: "2001:7f8:68::4:1652:1"
-      actions:
-        output:
-          failover:
-            group_id: 1017
-            ports:
-            - 25
-            - 26
-  - rule:
-      dl_dst: "b0:fa:eb:15:72:c0"
-      actions:
-        output:
-          failover:
-            group_id: 1018
-            ports:
-            - 25
-            - 26
-  - rule:
-      dl_type: '0x806'
-      dl_dst: "ff:ff:ff:ff:ff:ff"
-      arp_tpa: "91.213.236.26"
-      actions:
-        output:
-          failover:
-            group_id: 1019
-            ports:
-            - 25
-            - 26
-  - rule:
-      dl_type: '0x86DD'
-      ip_proto: 58
-      icmpv6_type: 135
-      ipv6_nd_target: "2001:7f8:68::4:1111:1"
-      actions:
-        output:
-          failover:
-            group_id: 1020
-            ports:
-            - 25
-            - 26
-  - rule:
-      dl_dst: "00:25:90:79:4d:5d"
-      actions:
-        output:
-          failover:
-            group_id: 1021
-            ports:
-            - 25
-            - 26
-  - rule:
-      dl_type: '0x806'
-      dl_dst: "ff:ff:ff:ff:ff:ff"
-      arp_tpa: "91.213.236.12"
-      actions:
-        output:
-          failover:
-            group_id: 1022
-            ports:
-            - 26
-            - 25
-  - rule:
-      dl_type: '0x86DD'
-      ip_proto: 58
-      icmpv6_type: 135
-      ipv6_nd_target: "2001:7f8:68::4:8072:1"
-      actions:
-        output:
-          failover:
-            group_id: 1023
-            ports:
-            - 26
-            - 25
-  - rule:
-      dl_dst: "08:81:f4:8c:1f:e0"
-      actions:
-        output:
-          failover:
-            group_id: 1024
-            ports:
-            - 26
-            - 25
-  - rule:
-      dl_type: '0x806'
-      dl_dst: "ff:ff:ff:ff:ff:ff"
-      arp_tpa: "91.213.236.23"
-      actions:
-        output:
-          failover:
-            group_id: 1025
-            ports:
-            - 26
-            - 25
-  - rule:
-      dl_type: '0x86DD'
-      ip_proto: 58
-      icmpv6_type: 135
-      ipv6_nd_target: "2001:7f8:68::19:7492:1"
-      actions:
-        output:
-          failover:
-            group_id: 1026
-            ports:
-            - 26
-            - 25
-  - rule:
-      dl_dst: "00:25:83:b0:34:1b"
-      actions:
-        output:
-          failover:
-            group_id: 1027
-            ports:
-            - 26
-            - 25
-  3:
-  - rule:
-      dl_type: '0x806'
-      dl_dst: "ff:ff:ff:ff:ff:ff"
-      arp_tpa: "91.213.236.12"
-      actions:
-        output:
-          port: 3
-  - rule:
-      dl_type: '0x86DD'
-      ip_proto: 58
-      icmpv6_type: 135
-      ipv6_nd_target: "2001:7f8:68::4:8072:1"
-      actions:
-        output:
-          port: 3
-  - rule:
-      dl_dst: "08:81:f4:8c:1f:e0"
-      actions:
-        output:
-          port: 3
-  - rule:
-      dl_type: '0x806'
-      dl_dst: "ff:ff:ff:ff:ff:ff"
-      arp_tpa: "91.213.236.23"
-      actions:
-        output:
-          port: 5
-  - rule:
-      dl_type: '0x86DD'
-      ip_proto: 58
-      icmpv6_type: 135
-      ipv6_nd_target: "2001:7f8:68::19:7492:1"
-      actions:
-        output:
-          port: 5
-  - rule:
-      dl_dst: "00:25:83:b0:34:1b"
-      actions:
-        output:
-          port: 5
-  - rule:
-      dl_type: '0x806'
-      dl_dst: "ff:ff:ff:ff:ff:ff"
-      arp_tpa: "91.213.236.15"
-      actions:
-        output:
-          failover:
-            group_id: 2001
-            ports:
-            - 28
-            - 25
-  - rule:
-      dl_type: '0x86DD'
-      ip_proto: 58
-      icmpv6_type: 135
-      ipv6_nd_target: "2001:7f8:68::3:9405:1"
-      actions:
-        output:
-          failover:
-            group_id: 2002
-            ports:
-            - 28
-            - 25
-  - rule:
-      dl_dst: "08:b2:58:99:e4:0b"
-      actions:
-        output:
-          failover:
-            group_id: 2003
-            ports:
-            - 28
-            - 25
-  - rule:
-      dl_type: '0x806'
-      dl_dst: "ff:ff:ff:ff:ff:ff"
-      arp_tpa: "91.213.236.22"
-      actions:
-        output:
-          failover:
-            group_id: 2004
-            ports:
-            - 28
-            - 25
-  - rule:
-      dl_type: '0x86DD'
-      ip_proto: 58
-      icmpv6_type: 135
-      ipv6_nd_target: "2001:7f8:68::1:6347:1"
-      actions:
-        output:
-          failover:
-            group_id: 2005
-            ports:
-            - 28
-            - 25
-  - rule:
-      dl_dst: "00:0b:fc:57:5c:1b"
-      actions:
-        output:
-          failover:
-            group_id: 2006
-            ports:
-            - 28
-            - 25
-  - rule:
-      dl_type: '0x806'
-      dl_dst: "ff:ff:ff:ff:ff:ff"
-      arp_tpa: "91.213.236.24"
-      actions:
-        output:
-          failover:
-            group_id: 2007
-            ports:
-            - 28
-            - 25
-  - rule:
-      dl_type: '0x86DD'
-      ip_proto: 58
-      icmpv6_type: 135
-      ipv6_nd_target: "2001:7f8:68::20:6059:1"
-      actions:
-        output:
-          failover:
-            group_id: 2008
-            ports:
-            - 28
-            - 25
-  - rule:
-      dl_dst: "fc:ec:da:05:ef:72"
-      actions:
-        output:
-          failover:
-            group_id: 2009
-            ports:
-            - 28
-            - 25
-  - rule:
-      dl_type: '0x806'
-      dl_dst: "ff:ff:ff:ff:ff:ff"
-      arp_tpa: "91.213.236.14"
-      actions:
-        output:
-          failover:
-            group_id: 2010
-            ports:
-            - 28
-            - 25
-  - rule:
-      dl_type: '0x86DD'
-      ip_proto: 58
-      icmpv6_type: 135
-      ipv6_nd_target: "2001:7f8:68::19:7422:1"
-      actions:
-        output:
-          failover:
-            group_id: 2011
-            ports:
-            - 28
-            - 25
-  - rule:
-      dl_dst: "90:e2:ba:20:b7:5c"
-      actions:
-        output:
-          failover:
-            group_id: 2012
-            ports:
-            - 28
-            - 25
-  - rule:
-      dl_type: '0x806'
-      dl_dst: "ff:ff:ff:ff:ff:ff"
-      arp_tpa: "91.213.236.13"
-      actions:
-        output:
-          failover:
-            group_id: 2013
-            ports:
-            - 28
-            - 25
-  - rule:
-      dl_type: '0x86DD'
-      ip_proto: 58
-      icmpv6_type: 135
-      ipv6_nd_target: "2001:7f8:68::4:3100:1"
-      actions:
-        output:
-          failover:
-            group_id: 2014
-            ports:
-            - 28
-            - 25
-  - rule:
-      dl_dst: "70:e4:22:06:8c:7b"
-      actions:
-        output:
-          failover:
-            group_id: 2015
-            ports:
-            - 28
-            - 25
-  - rule:
-      dl_type: '0x806'
-      dl_dst: "ff:ff:ff:ff:ff:ff"
-      arp_tpa: "91.213.236.25"
-      actions:
-        output:
-          failover:
-            group_id: 2016
-            ports:
-            - 28
-            - 25
-  - rule:
-      dl_type: '0x86DD'
-      ip_proto: 58
-      icmpv6_type: 135
-      ipv6_nd_target: "2001:7f8:68::4:1652:1"
-      actions:
-        output:
-          failover:
-            group_id: 2017
-            ports:
-            - 28
-            - 25
-  - rule:
-      dl_dst: "b0:fa:eb:15:72:c0"
-      actions:
-        output:
-          failover:
-            group_id: 2018
-            ports:
-            - 28
-            - 25
-  - rule:
-      dl_type: '0x806'
-      dl_dst: "ff:ff:ff:ff:ff:ff"
-      arp_tpa: "91.213.236.26"
-      actions:
-        output:
-          failover:
-            group_id: 2019
-            ports:
-            - 28
-            - 25
-  - rule:
-      dl_type: '0x86DD'
-      ip_proto: 58
-      icmpv6_type: 135
-      ipv6_nd_target: "2001:7f8:68::4:1111:1"
-      actions:
-        output:
-          failover:
-            group_id: 2020
-            ports:
-            - 28
-            - 25
-  - rule:
-      dl_dst: "00:25:90:79:4d:5d"
-      actions:
-        output:
-          failover:
-            group_id: 2021
-            ports:
-            - 28
-            - 25
-  - rule:
-      dl_type: '0x806'
-      dl_dst: "ff:ff:ff:ff:ff:ff"
-      arp_tpa: "91.213.236.20"
-      actions:
-        output:
-          failover:
-            group_id: 2022
-            ports:
-            - 25
-            - 28
-  - rule:
-      dl_type: '0x86DD'
-      ip_proto: 58
-      icmpv6_type: 135
-      ipv6_nd_target: "2001:7f8:68::5:7468:1"
-      actions:
-        output:
-          failover:
-            group_id: 2023
-            ports:
-            - 25
-            - 28
-  - rule:
-      dl_dst: "08:81:f4:89:8c:71"
-      actions:
-        output:
-          failover:
-            group_id: 2024
-            ports:
-            - 25
-            - 28
-  - rule:
-      dl_type: '0x806'
-      dl_dst: "ff:ff:ff:ff:ff:ff"
-      arp_tpa: "91.213.236.3"
-      actions:
-        output:
-          failover:
-            group_id: 2025
-            ports:
-            - 25
-            - 28
-  - rule:
-      dl_type: '0x86DD'
-      ip_proto: 58
-      icmpv6_type: 135
-      ipv6_nd_target: "2001:7f8:68::19:7492:2"
-      actions:
-        output:
-          failover:
-            group_id: 2026
-            ports:
-            - 25
-            - 28
+            - 23
+            - 22
   - rule:
       dl_dst: "00:00:00:00:00:01"
       actions:
         output:
           failover:
-            group_id: 2027
+            group_id: 1003
             ports:
-            - 25
-            - 28
+            - 23
+            - 22
+  - rule:
+      dl_type: '0x806'
+      dl_dst: "ff:ff:ff:ff:ff:ff"
+      arp_tpa: "10.0.0.2"
+      actions:
+        output:
+          failover:
+            group_id: 1004
+            ports:
+            - 23
+            - 22
+  - rule:
+      dl_type: '0x86DD'
+      ip_proto: 58
+      icmpv6_type: 135
+      ipv6_nd_target: "fd00::2"
+      actions:
+        output:
+          failover:
+            group_id: 1005
+            ports:
+            - 23
+            - 22
+  - rule:
+      dl_dst: "00:00:00:00:00:02"
+      actions:
+        output:
+          failover:
+            group_id: 1006
+            ports:
+            - 23
+            - 22
+  - rule:
+      dl_type: '0x806'
+      dl_dst: "ff:ff:ff:ff:ff:ff"
+      arp_tpa: "10.0.0.5"
+      actions:
+        output:
+          failover:
+            group_id: 1007
+            ports:
+            - 22
+            - 23
+  - rule:
+      dl_type: '0x86DD'
+      ip_proto: 58
+      icmpv6_type: 135
+      ipv6_nd_target: "fd00::5"
+      actions:
+        output:
+          failover:
+            group_id: 1008
+            ports:
+            - 22
+            - 23
+  - rule:
+      dl_dst: "00:00:00:00:00:05"
+      actions:
+        output:
+          failover:
+            group_id: 1009
+            ports:
+            - 22
+            - 23
+  - rule:
+      dl_type: '0x806'
+      dl_dst: "ff:ff:ff:ff:ff:ff"
+      arp_tpa: "10.0.0.6"
+      actions:
+        output:
+          failover:
+            group_id: 1010
+            ports:
+            - 22
+            - 23
+  - rule:
+      dl_type: '0x86DD'
+      ip_proto: 58
+      icmpv6_type: 135
+      ipv6_nd_target: "fd00::6"
+      actions:
+        output:
+          failover:
+            group_id: 1011
+            ports:
+            - 22
+            - 23
+  - rule:
+      dl_dst: "00:00:00:00:00:06"
+      actions:
+        output:
+          failover:
+            group_id: 1012
+            ports:
+            - 22
+            - 23
+  3:
+  - rule:
+      dl_type: '0x806'
+      dl_dst: "ff:ff:ff:ff:ff:ff"
+      arp_tpa: "10.0.0.5"
+      actions:
+        output:
+          port: 1
+  - rule:
+      dl_type: '0x86DD'
+      ip_proto: 58
+      icmpv6_type: 135
+      ipv6_nd_target: "fd00::5"
+      actions:
+        output:
+          port: 1
+  - rule:
+      dl_dst: "00:00:00:00:00:05"
+      actions:
+        output:
+          port: 1
+  - rule:
+      dl_type: '0x806'
+      dl_dst: "ff:ff:ff:ff:ff:ff"
+      arp_tpa: "10.0.0.6"
+      actions:
+        output:
+          port: 2
+  - rule:
+      dl_type: '0x86DD'
+      ip_proto: 58
+      icmpv6_type: 135
+      ipv6_nd_target: "fd00::6"
+      actions:
+        output:
+          port: 2
+  - rule:
+      dl_dst: "00:00:00:00:00:06"
+      actions:
+        output:
+          port: 2
+  - rule:
+      dl_type: '0x806'
+      dl_dst: "ff:ff:ff:ff:ff:ff"
+      arp_tpa: "10.0.0.1"
+      actions:
+        output:
+          failover:
+            group_id: 2001
+            ports:
+            - 24
+            - 22
+  - rule:
+      dl_type: '0x86DD'
+      ip_proto: 58
+      icmpv6_type: 135
+      ipv6_nd_target: "fd00::1"
+      actions:
+        output:
+          failover:
+            group_id: 2002
+            ports:
+            - 24
+            - 22
+  - rule:
+      dl_dst: "00:00:00:00:00:01"
+      actions:
+        output:
+          failover:
+            group_id: 2003
+            ports:
+            - 24
+            - 22
+  - rule:
+      dl_type: '0x806'
+      dl_dst: "ff:ff:ff:ff:ff:ff"
+      arp_tpa: "10.0.0.2"
+      actions:
+        output:
+          failover:
+            group_id: 2004
+            ports:
+            - 24
+            - 22
+  - rule:
+      dl_type: '0x86DD'
+      ip_proto: 58
+      icmpv6_type: 135
+      ipv6_nd_target: "fd00::2"
+      actions:
+        output:
+          failover:
+            group_id: 2005
+            ports:
+            - 24
+            - 22
+  - rule:
+      dl_dst: "00:00:00:00:00:02"
+      actions:
+        output:
+          failover:
+            group_id: 2006
+            ports:
+            - 24
+            - 22
+  - rule:
+      dl_type: '0x806'
+      dl_dst: "ff:ff:ff:ff:ff:ff"
+      arp_tpa: "10.0.0.3"
+      actions:
+        output:
+          failover:
+            group_id: 2007
+            ports:
+            - 22
+            - 24
+  - rule:
+      dl_type: '0x86DD'
+      ip_proto: 58
+      icmpv6_type: 135
+      ipv6_nd_target: "fd00::3"
+      actions:
+        output:
+          failover:
+            group_id: 2008
+            ports:
+            - 22
+            - 24
+  - rule:
+      dl_dst: "00:00:00:00:00:03"
+      actions:
+        output:
+          failover:
+            group_id: 2009
+            ports:
+            - 22
+            - 24
+  - rule:
+      dl_type: '0x806'
+      dl_dst: "ff:ff:ff:ff:ff:ff"
+      arp_tpa: "10.0.0.4"
+      actions:
+        output:
+          failover:
+            group_id: 2010
+            ports:
+            - 22
+            - 24
+  - rule:
+      dl_type: '0x86DD'
+      ip_proto: 58
+      icmpv6_type: 135
+      ipv6_nd_target: "fd00::4"
+      actions:
+        output:
+          failover:
+            group_id: 2011
+            ports:
+            - 22
+            - 24
+  - rule:
+      dl_dst: "00:00:00:00:00:04"
+      actions:
+        output:
+          failover:
+            group_id: 2012
+            ports:
+            - 22
+            - 24
