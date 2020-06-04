@@ -280,7 +280,7 @@ class MIXTT():
                     else:
                         info("No dpid has been found")
                         self.addSwitch(switch[2])
-                self.addLink(switch[0], switch[2], switch[1], switch[3])
+                self.addLink(switch[0], switch[2], int(switch[1]), int(switch[3]))
             
             for host in hosts_matrix:
                 self.hostAdd(host)

@@ -26,11 +26,11 @@ class Parser():
         ploss = self.calc_packet_loss(self.packets_sent, 
                                       self.packets_received, False)
         # Allow for mininet bootup problems
-        if ploss == 0 or ploss < 0.1:
+        if ploss == 0 or ploss < 1:
             print("Success with no packet loss")
             sys.exit()
-        if ploss > 0 and ploss < 1:
-            print("Success with minimal packet loss. Less than 1%")
+        if ploss > 1 and ploss < 5:
+            print("Success with minimal packet loss. Less than 5%")
             sys.exit()
         if ploss > 1:
             print("Failure please check configs")
@@ -77,7 +77,7 @@ class Parser():
                     r, s, ploss = self.get_packet_stats(line)
                     self.packets_sent+=s
                     self.packets_received+=r
-                    if ploss < 0:
+                    if ploss > 5:
                         print("packet loss detected in ping set:")
                         print(last_ping_set)
                         self.process_loss(last_ping_set)
