@@ -1,6 +1,8 @@
 CHANGES
 =======
 
+* Added int parser, and increased fault tolerance
+* Included parser and tidied up docker scripts
 * Added script for ixpmanager and added dpid support
 * Changed dockerfile to allow for standalone usage
 * Automate docker build and running topology tester

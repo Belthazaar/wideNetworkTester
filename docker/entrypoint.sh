@@ -16,8 +16,8 @@ cd /mixtt
 
 sleep 2
 
-/mixtt/docker/start.sh &>> $OUT_FILE
-
+# /mixtt/docker/start.sh &>> $OUT_FILE
+mixtt
 cd ixpman_files
 python3 parser.py 2>&1 | tee -a $OUT_FILE
 NOW=`date +%Y_%m_%d_%H_%M_%S`

@@ -11,13 +11,13 @@ dps:
         name: Alpha Corp
         native_vlan: 100
         acl_in: 1
-      23:
-        name: 's1,port1.0.23,s2,port1.0.23'
+      10:
+        name: 's1,port1.0.10,s2,port1.0.10'
         opstatus_reconf: false
         acl_in: 1
         native_vlan: 100
-      24:
-        name: 's1,port1.0.24,s3,port1.0.24'
+      12:
+        name: 's1,port1.0.12,s3,port1.0.12'
         opstatus_reconf: false
         acl_in: 1
         native_vlan: 100
@@ -33,13 +33,13 @@ dps:
         name: Charlie Internet Access
         native_vlan: 100
         acl_in: 2
-      22:
-        name: 's2,port1.0.22,s3,port1.0.22'
+      10:
+        name: 's1,port1.0.10,s2,port1.0.10'
         opstatus_reconf: false
         acl_in: 2
         native_vlan: 100
-      23:
-        name: 's1,port1.0.23,s2,port1.0.23'
+      11:
+        name: 's2,port1.0.11,s3,port1.0.11'
         opstatus_reconf: false
         acl_in: 2
         native_vlan: 100
@@ -55,13 +55,17 @@ dps:
         name: Echo Internet Access
         native_vlan: 100
         acl_in: 3
-      22:
-        name: 's2,port1.0.22,s3,port1.0.22'
+      3:
+        name: Foxtrot internet
+        native_vlan: 100
+        acl_in: 3
+      11:
+        name: 's2,port1.0.11,s3,port1.0.11'
         opstatus_reconf: false
         acl_in: 3
         native_vlan: 100
-      24:
-        name: 's1,port1.0.24,s3,port1.0.24'
+      12:
+        name: 's1,port1.0.12,s3,port1.0.12'
         opstatus_reconf: false
         acl_in: 3
         native_vlan: 100
@@ -134,8 +138,8 @@ acls:
             failover:
               group_id: 1
               ports:
-                - 23
-                - 24
+                - 10
+                - 12
     - rule:
         dl_type: '0x86DD'
         ip_proto: 58
@@ -146,8 +150,8 @@ acls:
             failover:
               group_id: 2
               ports:
-                - 23
-                - 24
+                - 10
+                - 12
     - rule:
         dl_dst: '00:00:00:00:00:03'
         actions:
@@ -155,8 +159,8 @@ acls:
             failover:
               group_id: 3
               ports:
-                - 23
-                - 24
+                - 10
+                - 12
     - rule:
         dl_type: '0x806'
         dl_dst: 'ff:ff:ff:ff:ff:ff'
@@ -166,8 +170,8 @@ acls:
             failover:
               group_id: 4
               ports:
-                - 23
-                - 24
+                - 10
+                - 12
     - rule:
         dl_type: '0x86DD'
         ip_proto: 58
@@ -178,8 +182,8 @@ acls:
             failover:
               group_id: 5
               ports:
-                - 23
-                - 24
+                - 10
+                - 12
     - rule:
         dl_dst: '00:00:00:00:00:04'
         actions:
@@ -187,8 +191,8 @@ acls:
             failover:
               group_id: 6
               ports:
-                - 23
-                - 24
+                - 10
+                - 12
     - rule:
         dl_type: '0x806'
         dl_dst: 'ff:ff:ff:ff:ff:ff'
@@ -198,8 +202,8 @@ acls:
             failover:
               group_id: 7
               ports:
-                - 24
-                - 23
+                - 12
+                - 10
     - rule:
         dl_type: '0x86DD'
         ip_proto: 58
@@ -210,8 +214,8 @@ acls:
             failover:
               group_id: 8
               ports:
-                - 24
-                - 23
+                - 12
+                - 10
     - rule:
         dl_dst: '00:00:00:00:00:05'
         actions:
@@ -219,8 +223,8 @@ acls:
             failover:
               group_id: 9
               ports:
-                - 24
-                - 23
+                - 12
+                - 10
     - rule:
         dl_type: '0x806'
         dl_dst: 'ff:ff:ff:ff:ff:ff'
@@ -230,8 +234,8 @@ acls:
             failover:
               group_id: 10
               ports:
-                - 24
-                - 23
+                - 12
+                - 10
     - rule:
         dl_type: '0x86DD'
         ip_proto: 58
@@ -242,8 +246,8 @@ acls:
             failover:
               group_id: 11
               ports:
-                - 24
-                - 23
+                - 12
+                - 10
     - rule:
         dl_dst: '00:00:00:00:00:06'
         actions:
@@ -251,8 +255,40 @@ acls:
             failover:
               group_id: 12
               ports:
-                - 24
-                - 23
+                - 12
+                - 10
+    - rule:
+        dl_type: '0x806'
+        dl_dst: 'ff:ff:ff:ff:ff:ff'
+        arp_tpa: 10.0.0.7
+        actions:
+          output:
+            failover:
+              group_id: 13
+              ports:
+                - 12
+                - 10
+    - rule:
+        dl_type: '0x86DD'
+        ip_proto: 58
+        icmpv6_type: 135
+        ipv6_nd_target: 'fd00::7'
+        actions:
+          output:
+            failover:
+              group_id: 14
+              ports:
+                - 12
+                - 10
+    - rule:
+        dl_dst: '00:00:00:00:00:07'
+        actions:
+          output:
+            failover:
+              group_id: 15
+              ports:
+                - 12
+                - 10
   2:
     - rule:
         dl_type: '0x806'
@@ -317,8 +353,8 @@ acls:
             failover:
               group_id: 1001
               ports:
-                - 23
-                - 22
+                - 10
+                - 11
     - rule:
         dl_type: '0x86DD'
         ip_proto: 58
@@ -329,8 +365,8 @@ acls:
             failover:
               group_id: 1002
               ports:
-                - 23
-                - 22
+                - 10
+                - 11
     - rule:
         dl_dst: '00:00:00:00:00:01'
         actions:
@@ -338,8 +374,8 @@ acls:
             failover:
               group_id: 1003
               ports:
-                - 23
-                - 22
+                - 10
+                - 11
     - rule:
         dl_type: '0x806'
         dl_dst: 'ff:ff:ff:ff:ff:ff'
@@ -349,8 +385,8 @@ acls:
             failover:
               group_id: 1004
               ports:
-                - 23
-                - 22
+                - 10
+                - 11
     - rule:
         dl_type: '0x86DD'
         ip_proto: 58
@@ -361,8 +397,8 @@ acls:
             failover:
               group_id: 1005
               ports:
-                - 23
-                - 22
+                - 10
+                - 11
     - rule:
         dl_dst: '00:00:00:00:00:02'
         actions:
@@ -370,8 +406,8 @@ acls:
             failover:
               group_id: 1006
               ports:
-                - 23
-                - 22
+                - 10
+                - 11
     - rule:
         dl_type: '0x806'
         dl_dst: 'ff:ff:ff:ff:ff:ff'
@@ -381,8 +417,8 @@ acls:
             failover:
               group_id: 1007
               ports:
-                - 22
-                - 23
+                - 11
+                - 10
     - rule:
         dl_type: '0x86DD'
         ip_proto: 58
@@ -393,8 +429,8 @@ acls:
             failover:
               group_id: 1008
               ports:
-                - 22
-                - 23
+                - 11
+                - 10
     - rule:
         dl_dst: '00:00:00:00:00:05'
         actions:
@@ -402,8 +438,8 @@ acls:
             failover:
               group_id: 1009
               ports:
-                - 22
-                - 23
+                - 11
+                - 10
     - rule:
         dl_type: '0x806'
         dl_dst: 'ff:ff:ff:ff:ff:ff'
@@ -413,8 +449,8 @@ acls:
             failover:
               group_id: 1010
               ports:
-                - 22
-                - 23
+                - 11
+                - 10
     - rule:
         dl_type: '0x86DD'
         ip_proto: 58
@@ -425,8 +461,8 @@ acls:
             failover:
               group_id: 1011
               ports:
-                - 22
-                - 23
+                - 11
+                - 10
     - rule:
         dl_dst: '00:00:00:00:00:06'
         actions:
@@ -434,8 +470,40 @@ acls:
             failover:
               group_id: 1012
               ports:
-                - 22
-                - 23
+                - 11
+                - 10
+    - rule:
+        dl_type: '0x806'
+        dl_dst: 'ff:ff:ff:ff:ff:ff'
+        arp_tpa: 10.0.0.7
+        actions:
+          output:
+            failover:
+              group_id: 1013
+              ports:
+                - 11
+                - 10
+    - rule:
+        dl_type: '0x86DD'
+        ip_proto: 58
+        icmpv6_type: 135
+        ipv6_nd_target: 'fd00::7'
+        actions:
+          output:
+            failover:
+              group_id: 1014
+              ports:
+                - 11
+                - 10
+    - rule:
+        dl_dst: '00:00:00:00:00:07'
+        actions:
+          output:
+            failover:
+              group_id: 1015
+              ports:
+                - 11
+                - 10
   3:
     - rule:
         dl_type: '0x806'
@@ -494,14 +562,41 @@ acls:
     - rule:
         dl_type: '0x806'
         dl_dst: 'ff:ff:ff:ff:ff:ff'
+        arp_tpa: 10.0.0.7
+        actions:
+          output:
+            port: 3
+    - rule:
+        dl_type: '0x86DD'
+        ip_proto: 58
+        icmpv6_type: 135
+        ipv6_nd_target: 'fd00::7'
+        actions:
+          output:
+            port: 3
+    - rule:
+        dl_dst: '00:00:00:00:00:07'
+        actions:
+          output:
+            port: 3
+    - rule:
+        dl_dst: '03:00:00:00:00:00'
+        actions:
+          output:
+            set_fields:
+              - eth_dst: '00:00:00:00:00:07'
+            port: 3
+    - rule:
+        dl_type: '0x806'
+        dl_dst: 'ff:ff:ff:ff:ff:ff'
         arp_tpa: 10.0.0.1
         actions:
           output:
             failover:
               group_id: 2001
               ports:
-                - 24
-                - 22
+                - 12
+                - 11
     - rule:
         dl_type: '0x86DD'
         ip_proto: 58
@@ -512,8 +607,8 @@ acls:
             failover:
               group_id: 2002
               ports:
-                - 24
-                - 22
+                - 12
+                - 11
     - rule:
         dl_dst: '00:00:00:00:00:01'
         actions:
@@ -521,8 +616,8 @@ acls:
             failover:
               group_id: 2003
               ports:
-                - 24
-                - 22
+                - 12
+                - 11
     - rule:
         dl_type: '0x806'
         dl_dst: 'ff:ff:ff:ff:ff:ff'
@@ -532,8 +627,8 @@ acls:
             failover:
               group_id: 2004
               ports:
-                - 24
-                - 22
+                - 12
+                - 11
     - rule:
         dl_type: '0x86DD'
         ip_proto: 58
@@ -544,8 +639,8 @@ acls:
             failover:
               group_id: 2005
               ports:
-                - 24
-                - 22
+                - 12
+                - 11
     - rule:
         dl_dst: '00:00:00:00:00:02'
         actions:
@@ -553,8 +648,8 @@ acls:
             failover:
               group_id: 2006
               ports:
-                - 24
-                - 22
+                - 12
+                - 11
     - rule:
         dl_type: '0x806'
         dl_dst: 'ff:ff:ff:ff:ff:ff'
@@ -564,8 +659,8 @@ acls:
             failover:
               group_id: 2007
               ports:
-                - 22
-                - 24
+                - 11
+                - 12
     - rule:
         dl_type: '0x86DD'
         ip_proto: 58
@@ -576,8 +671,8 @@ acls:
             failover:
               group_id: 2008
               ports:
-                - 22
-                - 24
+                - 11
+                - 12
     - rule:
         dl_dst: '00:00:00:00:00:03'
         actions:
@@ -585,8 +680,8 @@ acls:
             failover:
               group_id: 2009
               ports:
-                - 22
-                - 24
+                - 11
+                - 12
     - rule:
         dl_type: '0x806'
         dl_dst: 'ff:ff:ff:ff:ff:ff'
@@ -596,8 +691,8 @@ acls:
             failover:
               group_id: 2010
               ports:
-                - 22
-                - 24
+                - 11
+                - 12
     - rule:
         dl_type: '0x86DD'
         ip_proto: 58
@@ -608,8 +703,8 @@ acls:
             failover:
               group_id: 2011
               ports:
-                - 22
-                - 24
+                - 11
+                - 12
     - rule:
         dl_dst: '00:00:00:00:00:04'
         actions:
@@ -617,5 +712,5 @@ acls:
             failover:
               group_id: 2012
               ports:
-                - 22
-                - 24
+                - 11
+                - 12
