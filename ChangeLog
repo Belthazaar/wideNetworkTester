@@ -1,9 +1,11 @@
 CHANGES
 =======
 
+
 * Fixed a word in gitgnore
 * Updated gitignore
 * Added parser and setup from wide setup
+
 * Added script for ixpmanager and added dpid support
 * Changed dockerfile to allow for standalone usage
 * Automate docker build and running topology tester
